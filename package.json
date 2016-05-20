@@ -1,0 +1,19 @@
+{
+  "name": "super-model",
+  "version": "1.0.0",
+  "description": "A basic json model library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/the-letter-e-production/npm-super-model.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/the-letter-e-production/npm-super-model/issues"
+  },
+  "homepage": "https://github.com/the-letter-e-production/npm-super-model#readme"
+}
