@@ -74,14 +74,24 @@ sm.addDataSource({
     name: 'mongodb',
     source: {
         find: function(id, cb){
+            //use options
+            var url = this.data_sources.mongodb._options.host + ':' + this.data_sources.mongodb._options.port; //options defined at global level
+            var db = this.data_sources.mongodb._options.database; //options defined at clone level
             //find user by id using your mongo code of choice
             this.import(json); //import json object returned by your mongo code
             cb(this);
         },
         findByKey: function(key, val, cb){
+            //use options
+            var url = this.data_sources.mongodb._options.host + ':' + this.data_sources.mongodb._options.port; //options defined at global level
+            var db = this.data_sources.mongodb._options.database; //options defined at clone level
             //find user by custom key using your mongo code of choice
             this.import(json); //import json object returned by your mongo code
             cb(this);
+        },
+        _options: {
+            host: "localhost",
+            port: "27017"
         }
     }
 });
@@ -106,7 +116,7 @@ var User = sm.clone({
             return md5(val); //pseudo code
         }
     }
-}, 'mongodb'); //add your data source name in the last argument, optional
+}, 'mongodb', {"database": "db-name"}); //add your data source name and override options, optional
 
 /**
  * Now use your new data source access methods!
