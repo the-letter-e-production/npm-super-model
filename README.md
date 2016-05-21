@@ -132,6 +132,10 @@ All source methods will be added to your models prototype and are ready to use a
 
 __NOTE:__ If you try to create a source method with the same name as a default property of SuperModel an error will be thrown.
 
+## List of Data Sources
+
+[__CouchDB__](https://www.npmjs.com/package/super-model-couchdb)
+
 
 
 
