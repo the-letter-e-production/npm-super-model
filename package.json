@@ -15,5 +15,6 @@
   "bugs": {
     "url": "https://github.com/the-letter-e-production/npm-super-model/issues"
   },
-  "homepage": "https://github.com/the-letter-e-production/npm-super-model#readme"
+  "homepage": "https://github.com/the-letter-e-production/npm-super-model#readme",
+  "keywords": ["json", "model", "mongodb", "couchdb", "request", "querystring", "post", "body", "mysql", "postgresql", "elasticsearch"]
 }
