@@ -23,6 +23,8 @@ SuperModel.prototype = {
             var prop = this.mapping[key];
             if( prop ){
                 this.set(prop, data[key]);
+            }else{
+                this.set(key, data[key]);
             }   
         }   
     },  
@@ -62,6 +64,6 @@ var User = SuperModel.clone({
 });
 
 var user = new User;
-    user.import({em: 'eric@restorationmedia.com'});
+    user.import({em: 'eric@restorationmedia.com', extra: 'field'});
     console.log(user);
 // */
