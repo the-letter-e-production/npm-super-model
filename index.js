@@ -39,14 +39,20 @@ SuperModel.addDataSource = function(pkg){
     SuperModel.prototype.data_sources[pkg.name] = pkg.source;
 };
 
-SuperModel.clone = function(options, data_source){
+SuperModel.clone = function(options, data_source, data_source_options){
     var model = function(){
         SuperModel.call(this);
         for(var key in options){
             this[key] = options[key];
         }
         if( typeof data_source !== "undefined" && this.data_sources.hasOwnProperty(data_source) ){
+            for(var key in data_source_options){
+                this.data_sources[data_source]._options[key] = data_source_options[key];
+            }
             for(var key in this.data_sources[data_source]){
+                if( key == '_options' ){
+                    continue;
+                }
                 if( this.hasOwnProperty(key) ){
                     throw new Error('Data sources are not allowed to override default properties! Invalid property: ' + key);
                 }
