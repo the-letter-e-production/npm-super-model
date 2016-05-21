@@ -49,7 +49,7 @@ var user = new User;
  * Use Setters/Getters
  */ 
 user.set('extra', 'field') //add any value you want with set
-var email = user.get('em'); //user@host.com
+var email = user.get('email'); //user@host.com
 
 /**
  * Export all user data to JSON
