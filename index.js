@@ -31,15 +31,27 @@ SuperModel.prototype = {
     export: function(){
         return this.data;
     },  
-    filters: {
-    }   
+    filters: {},
+    data_sources: {}
 };
 
-SuperModel.clone = function(options){
+SuperModel.addDataSource = function(pkg){
+    SuperModel.prototype.data_sources[pkg.name] = pkg.source;
+};
+
+SuperModel.clone = function(options, data_source){
     var model = function(){
         SuperModel.call(this);
         for(var key in options){
             this[key] = options[key];
+        }
+        if( typeof data_source !== "undefined" && this.data_sources.hasOwnProperty(data_source) ){
+            for(var key in this.data_sources[data_source]){
+                if( this.hasOwnProperty(key) ){
+                    throw new Error('Data sources are not allowed to override default properties! Invalid property: ' + key);
+                }
+                this[key] = this.data_sources[data_source][key];
+            }
         }
     };
     util.inherits(model, SuperModel);
@@ -52,6 +64,18 @@ module.exports = SuperModel;
 /**
  * Sample Usage
  * /
+SuperModel.addDataSource({
+    name: 'mongodb',
+    source: {
+        find: function(id){
+            this.import({em: 'eric@restorationmedia.com', extra: 'field'});
+        },
+        findBy: function(key, val){
+            console.log(this);
+        }
+    }
+});
+
 var User = SuperModel.clone({
     mapping: {
         em: 'email'
@@ -61,9 +85,9 @@ var User = SuperModel.clone({
             return 'fixed:' + val;
         }
     }
-});
+}, 'mongodb');
 
 var user = new User;
-    user.import({em: 'eric@restorationmedia.com', extra: 'field'});
-    console.log(user);
+    user.find(1);
+    console.log(user.get('email'));
 // */
