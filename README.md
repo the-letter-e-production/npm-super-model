@@ -78,7 +78,7 @@ sm.addDataSource({
             this.import(json); //import json object returned by your mongo code
             cb(this);
         },
-        findByKey: function(key, val){
+        findByKey: function(key, val, cb){
             //find user by custom key using your mongo code of choice
             this.import(json); //import json object returned by your mongo code
             cb(this);
