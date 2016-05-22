@@ -79,7 +79,7 @@ sm.addDataSource({
             var db = this._options.database; //options defined at clone level
             //find user by id using your mongo code of choice
             this.import(json); //import json object returned by your mongo code
-            cb(this);
+            cb.call(this);
         },
         findByKey: function(key, val, cb){
             //use options
@@ -87,7 +87,7 @@ sm.addDataSource({
             var db = this._options.database; //options defined at clone level
             //find user by custom key using your mongo code of choice
             this.import(json); //import json object returned by your mongo code
-            cb(this);
+            cb.call(this);
         },
         _options: {
             host: "localhost",
