@@ -75,16 +75,16 @@ sm.addDataSource({
     source: {
         find: function(id, cb){
             //use options
-            var url = this.data_sources.mongodb._options.host + ':' + this.data_sources.mongodb._options.port; //options defined at global level
-            var db = this.data_sources.mongodb._options.database; //options defined at clone level
+            var url = this._options.host + ':' + this._options.port; //options defined at global level
+            var db = this._options.database; //options defined at clone level
             //find user by id using your mongo code of choice
             this.import(json); //import json object returned by your mongo code
             cb(this);
         },
         findByKey: function(key, val, cb){
             //use options
-            var url = this.data_sources.mongodb._options.host + ':' + this.data_sources.mongodb._options.port; //options defined at global level
-            var db = this.data_sources.mongodb._options.database; //options defined at clone level
+            var url = this._options.host + ':' + this._options.port; //options defined at global level
+            var db = this._options.database; //options defined at clone level
             //find user by custom key using your mongo code of choice
             this.import(json); //import json object returned by your mongo code
             cb(this);
