@@ -49,6 +49,7 @@ SuperModel.clone = function(options, data_source, data_source_options){
             for(var key in data_source_options){
                 this.data_sources[data_source]._options[key] = data_source_options[key];
             }
+            this._options = JSON.parse(JSON.stringify(this.data_sources[data_source]._options));
             for(var key in this.data_sources[data_source]){
                 if( key == '_options' ){
                     continue;
@@ -61,7 +62,7 @@ SuperModel.clone = function(options, data_source, data_source_options){
         }
     };
     util.inherits(model, SuperModel);
-    
+
     return model;
 };
 
