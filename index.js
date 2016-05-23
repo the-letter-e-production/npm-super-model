@@ -20,7 +20,7 @@ SuperModel.prototype = {
     },  
     import: function(data){
         for(var key in data){
-            var prop = this.mapping[key];
+            var prop = this.mapping[key] || false;
             if( prop ){
                 this.set(prop, data[key]);
             }else{
