@@ -4,138 +4,42 @@
 
 This plugin was designed to rapidly create flexible JSON models that can easily be backed by any datasource of your choice.
 
+## NOTE: Major Relase to ES6 implementation. Old API is now deprecated
+
 ## Example Usage
 
 ```
-/**
- * Require Super Model
- */
-var sm = require('super-model');
+var SuperModel = require('super-model');
 
-/**
- * Define your custom model
- */
-var User = sm.clone({
-    mapping: { //used to normalize imported keys to model values
-        em: 'email',
-        fn: 'first_name',
-        ln: 'last_name',
-        ps: 'password'
-    },
-    filters: { //used to filter values at set time
-        email: function(val){
-            //do email validation
-            return val;
-        },
-        password: function(val){
-            //hash your password
-            return md5(val); //pseudo code
-        }
-    }
-});
+var model = new SuperModel([options]);
 
-/**
- * Create your instance of a User Model
- */
-var user = new User;
-    user.import({ //import data from a database, query string, etc...
-        em: 'user@host.com',
-        fn: 'Jane',
-        ln: 'Doe',
-        ps: 'abcd1234'
-    });
+model.set('foo', 'bar');
+console.log(model.get('foo')); //prints 'bar'
 
-/**
- * Use Setters/Getters
- */ 
-user.set('extra', 'field') //add any value you want with set
-var email = user.get('email'); //user@host.com
-
-/**
- * Export all user data to JSON
- */
- var udata = user.export();
 ```
 
 ## Data Source Support
 
-This library supports custom data sources that you can add to the library and use on a model by model basis. Here's how!
+Data source support is much simpler with the new ES6 implementation. All you need to do is extend the SuperModel base class
 
 ```
-/**
- * Require Super Model
- */
-var sm = require('super-model');
+var SuperModel = require('super-model');
 
-/**
- * Add a data source
- */
-sm.addDataSource({
-    name: 'mongodb',
-    source: {
-        find: function(id, cb){
-            //use options
-            var url = this._options.host + ':' + this._options.port; //options defined at global level
-            var db = this._options.database; //options defined at clone level
-            //find user by id using your mongo code of choice
-            this.import(json); //import json object returned by your mongo code
-            cb.call(this);
-        },
-        findByKey: function(key, val, cb){
-            //use options
-            var url = this._options.host + ':' + this._options.port; //options defined at global level
-            var db = this._options.database; //options defined at clone level
-            //find user by custom key using your mongo code of choice
-            this.import(json); //import json object returned by your mongo code
-            cb.call(this);
-        },
-        _options: {
-            host: "localhost",
-            port: "27017"
-        }
+class MyModel extends SuperModel {
+    
+    find(id){
+        return mongodb.find(id).bind(this).then(function(result){
+            this.import(result);
+        }); //pseudo bluebird promise code
     }
-});
 
-/**
- * Create your instance of a User Model
- */
-var User = sm.clone({
-    mapping: { //used to normalize imported keys to model values
-        em: 'email',
-        fn: 'first_name',
-        ln: 'last_name',
-        ps: 'password'
-    },
-    filters: { //used to filter values at set time
-        email: function(val){
-            //do email validation
-            return val;
-        },
-        password: function(val){
-            //hash your password
-            return md5(val); //pseudo code
-        }
-    }
-}, 'mongodb', {"database": "db-name"}); //add your data source name and override options, optional
+}
 
-/**
- * Now use your new data source access methods!
- */
-var user = new User;
-    user.find(1, //find user with id == 1
-        function(user){ //callback once user is retrieved
-            var email = user.get('email');
-        });
+var mymodel = new MyModel(options);
+    mymodel.find(1).then(function(){
+        this.get('mydata'); //return myvalue
+    });
 ```
-
-All source methods will be added to your models prototype and are ready to use as you see fit. It's that easy!
-
-__NOTE:__ If you try to create a source method with the same name as a default property of SuperModel an error will be thrown.
-
-## List of Data Sources
-
-[__CouchDB__](https://www.npmjs.com/package/super-model-couchdb)
-
 
 
 
