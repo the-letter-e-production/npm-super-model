@@ -7,9 +7,17 @@ class SuperModel {
         this.data = options.data || {};
         this.mapping = options.mapping || {};
         this.filters = options.filters || {};
+        this.interface = options.interface || false;
     }
 
     set(key, val){
+        if( this.interface ) {
+          if( !this.interface.hasOwnProperty(key) ){
+              throw new Error('Invalid property passed: ' + key);
+          } else if ( this.interface[key] !== 'any' && typeof val !== this.interface[key] ) {
+              throw new Error('Invalid type `' + (typeof val) + '` passed to ' + key + ': Expected `' + this.interface[key] + '`');
+          }
+        }
         var prop = this.getMapping(key);
         this.data[prop] = this.filter(prop, val);
     }
@@ -28,6 +36,10 @@ class SuperModel {
         }
 
         return val;
+    }
+
+    setInterface(obj) {
+        this.interface = obj;
     }
 
     import(data){
