@@ -1,7 +1,7 @@
 'use strict';
 
 class SuperModel {
-    
+
     constructor(options){
         options = options || {};
         this.data = options.data || {};
@@ -14,7 +14,7 @@ class SuperModel {
         if( this.interface ) {
           if( !this.interface.hasOwnProperty(key) ){
               throw new Error('Invalid property passed: ' + key);
-          } else if ( this.interface[key] !== 'any' && typeof val !== this.interface[key] ) {
+          } else if ( this.interface[key] !== 'any' && SuperModel.getType(val) !== this.interface[key] ) {
               throw new Error('Invalid type `' + (typeof val) + '` passed to ' + key + ': Expected `' + this.interface[key] + '`');
           }
         }
@@ -50,6 +50,10 @@ class SuperModel {
 
     export(){
         return this.data;
+    }
+
+    static getType(obj) {
+      return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
     }
 
 }
