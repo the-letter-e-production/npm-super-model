@@ -32,7 +32,7 @@ class SuperModel {
 
     filter(prop, val){
         if( this.filters.hasOwnProperty(prop) ){
-            return this.filters[prop](val);
+           return this.filters[prop].call(this, val);
         }
 
         return val;
